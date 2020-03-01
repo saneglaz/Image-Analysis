@@ -118,7 +118,7 @@ plot(ecdf(average.WT), col="black")
 lines(ecdf(average.EH13), col="red")  
 lines(ecdf(average.EH10), col="blue")
 
-
+# Find the point of the cummulative distribution with the max divergence with the wild-type
 
 cdf.WT <- ecdf(WT_cum)
 cdf.EH13 <- ecdf(EH13_cum)
@@ -141,6 +141,7 @@ y1.EH10 <- cdf.EH10(x0.EH10)
 
 sapply(samples_list[WT], function(x) {mean(length(x[x< 586]) / length(x))})
 
+#Calculate the sem (standard error of the mean) for each group
 
 sem <- function(x) {sd(x)/sqrt(length(x))}
 
@@ -160,6 +161,7 @@ for(i in length(samples_x[EH10]))
     EH10_sem[[j]] <- sem(sapply(samples_x[EH10], function(x) (x)[[j]]))
   } 
 
+#Calculate the mean of the groups
 
 WT_mean <- NULL
 for(i in length(samples_x[WT]))
@@ -177,6 +179,7 @@ for(i in length(samples_x[EH10]))
     EH10_mean[[j]] <- mean(sapply(samples_x[EH10], function(x) (x)[[j]]))
   } 
 
+#CUMMULATIVE PLOT  WITH REPLICATES
 
 x.index <- c(seq(from=1, to=1000, by=1))
 
@@ -189,6 +192,8 @@ lines(EH13_mean, col="black")
 lines(EH10_mean, col="black")
 
 
+# CUMMULATIVE PLOT FOR GROUPS
+# The envelope represents the sem of each group
 
 WT_freq <- cumsum(WT_mean)/sum(WT_mean)
 EH13_freq <- cumsum(EH13_mean)/sum(EH13_mean)
@@ -204,28 +209,7 @@ lines(cumsum(EH10_mean)/sum(EH10_mean), col="blue")
 
 
 
-rescale <- function(x, x0, xm, n) {
-  (x - x0)/(xm - x0)*n
-}
-
-
-
-#PLOT con ggplot
-ggplot(dat, aes(x = KSD, group = group, color = group))+
-  stat_ecdf(size=1) +
-  theme_bw(base_size = 28) +
-  theme(legend.position ="top") +
-  xlab("Sample") +
-  ylab("ECDF") +
-  #geom_line(size=1) +
-  geom_segment(aes(x = x0[1], y = y0[1], xend = x0[1], yend = y1[1]),
-               linetype = "dashed", color = "red") +
-  geom_point(aes(x = x0[1] , y= y0[1]), color="red", size=8) +
-  geom_point(aes(x = x0[1] , y= y1[1]), color="red", size=8) +
-  ggtitle("K-S Test: Sample 1 / Sample 2") +
-  theme(legend.title=element_blank())
-
-#PLOT CUMMULATIVE STANDARD FOR GROUPS
+#CUMMULATIVE PLOT  FOR GROUPS
 plot(cdf.WT, verticals=TRUE, do.points=FALSE, col="black", lwd=4) 
 plot(cdf.EH13, verticals=TRUE, do.points=FALSE, col="red", lwd=4, add=TRUE) 
 plot(cdf.EH10, verticals=TRUE, do.points=FALSE, col="blue", lwd=4, add=TRUE) 
@@ -236,13 +220,13 @@ segments(x0, y0, x0, y1, col="black", lty="dotted")
 points(c(x0.EH10, x0.EH10), c(y0.EH10, y1.EH10), pch=16, col="blue") 
 segments(x0.EH10, y0.EH10, x0.EH10, y1.EH10, col="black", lty="dotted")
 
+
 #VIOLIN PLOT
 
 d1 <- data.frame(
   y = c(WT_mean, EH13_mean, EH10_mean),
   group = rep(c("WT", "EH13", "EH10"), c(length(WT_mean), length(EH13_mean), length(EH10_mean)))
 )
-
 d1 <- data.frame(
   y = c(log(WT.counts), log(EH13.counts), log(EH10.counts)),
   group = rep(c("WT", "EH13", "EH10"), c(length(WT.counts), length(EH13.counts), length(EH10.counts))))
@@ -252,64 +236,6 @@ e + geom_violin(aes(fill = group), trim = FALSE) +
   geom_boxplot(width = 0.2)+
   scale_fill_manual(values = c("#00AFBB", "#E7B800", "#FC4E07"))+
   theme(legend.position = "none")
-
-
-
-ks.test(WT,EH13)
-
-#Crear Hyperframe con info metadata
-
-genotype <- c(rep("wt", 3))
-genotype <- append(genotype, rep("brn", 4), after = length(genotype))
-genotype <- append(genotype, rep("sert", 3), after = length(genotype))
-replicate <- c(1,1,1,2,2,2,2,3,3,3)
-
-H <- hyperframe(
-  name=c("wt2_","wt4_","wt11_","brn1_","brn2_","brn3_","brn4_","sert5_","sert7_","sert8_"), 
-  genotype=genotype,
-  replicate=replicate,
-  distances=list)
-
-H$plot <- with(H, density(distances_))
-H$mean <- with(H, mean(distances$x))
-H$var <- with(H, var(distances$x))
-H$sd <- with(H, sd(distances$x))
-H$distances_ <- list(wt2_,wt4_,wt11_,brn1_,brn2_,brn3_,brn4_,sert5_,sert7_,sert8_)
-H$closer <- with(H, length(subset(subset(distances_, x>50),x<300))/length(distances_))
-H$further <- with(H, length(subset(distances_, x>600))/length(distances_))
-
-#Medias por grupo
-
-average.wt <- c(wt2_,wt4_,wt11_)
-average.brn <- c(brn1_,brn2_,brn3_,brn4_)
-average.sert <- c(sert5_,sert7_,sert8_)
-
-
-plot(NULL, xlim=c(0,800), ylim=c(0,0.004), ylab="%", xlab="distance", main="Distance to ipsi midlane", type="l")
-color <- c("black","black","black","red","red","red","red","blue","blue","blue","blue")
-for (i in 1:length(H$distances)){
-  lines(H$plot[[i]], xlim=c(0,800), ylim=c(0,0.004), col=color[i])
-}
-
-lapply(H$plot, line)
-
-
-#PLOT densities con overlay para media grupo
-
-plot(NULL, xlim=c(0,800), ylim=c(0,0.004), ylab="%", xlab="distance", main="Distance to ipsi midlane", type="l")
-color <- c("black","black","black","red","red","red","red","blue","blue","blue","blue")
-for (i in 1:length(H$distances)){
-  lines(H$plot[[i]], xlim=c(0,800), ylim=c(0,0.004), col=color[i])
-}
-
-polygon(density(average.wt), col=rgb(0, 0, 1,0.25))
-polygon(density(average.brn), col=rgb(1, 0, 0,0.25))
-polygon(density(average.sert), col=rgb(1, 0, 0,0.25))
-
-plot(NULL, xlim=c(0,800), ylim=c(0,0.004), ylab="%", xlab="distance", main="Distance to ipsi midlane", type="l")
-for(i in 1:6){
-  lines(density(H$distances[[i]]$x))
-}
 
 
 
