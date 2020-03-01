@@ -1,6 +1,3 @@
-dump(c("resultsP11","resultsP30"), file = "distribution_results.R", append = FALSE, control = "all")
-source(file = "distribution_results.R")
-
 ############################
 #Load libraries
 library(prettyR)
@@ -48,12 +45,6 @@ samples_list=c(samples_WT,samples_EH13,samples_EH10)
 WT <- grep("WT", samples, value=FALSE)
 EH13 <- grep("EH13", samples, value=FALSE)
 EH10 <- grep("EH10", samples, value=FALSE)
-
-#MANUAL P11
-WT <- c(5,18,19,21,22)
-EH13 <- c(11,13,15,16,17)
-EH10 <- c(1,2,3,24)
-genotypes<- c(rep("WT",length(WT)),rep("EH13",length(EH13)),rep("EH10",length(EH10)))
 
 
 #GENERAR DATA.FRAME CON RESULTADOS
