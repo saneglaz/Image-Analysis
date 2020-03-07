@@ -21,6 +21,5 @@ The process consists of 2 steps:
 
 2- RUN "2_Density_map_SCN.R" script in R. 
    - Density map from the right side should be flipped horizontally in order to be visualized in the proper orientation (see "Density_map.tif" as an example of the resulting maps)
-   (https://raw.githubusercontent.com/saneglaz/Image-Analysis/master/Density/Density_map.tif)
    - Additionally, the script will calculate the ratio of projections projecting to the contralateral and the ipsilateral side (see "Ratio Cross_No-cross.tif" file as example)
    
