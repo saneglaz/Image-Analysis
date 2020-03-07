@@ -7,7 +7,7 @@ library(gdata)
 
 
 #Insert path to the root directory
-root <- "I:/INA/KIR2.1/dLGN/CUANTIFICACION/AUTO/P11"
+root <- "introduce_root_directory"
 setwd(root)
 #Obtain sample names using folder names
 folders <- list.dirs(recursive=FALSE)
@@ -35,16 +35,16 @@ for (i in 1:length(samples)){
 #DATA ANALYSIS#
 #############################
 #GROUP SAMPLES BY CONDITION
-rm(samples_WT,samples_EH13,samples_EH10)
+rm(samples_WT,samples_MUT1,samples_MUT2)
 objetos <- objects()
 samples_WT <- grep("WT", objetos, value=TRUE)
-samples_EH13 <- grep("EH13", objetos, value=TRUE)
-samples_EH10 <- grep("EH10", objetos, value=TRUE)
-samples_list=c(samples_WT,samples_EH13,samples_EH10)
+samples_MUT1 <- grep("MUT1", objetos, value=TRUE)
+samples_MUT2 <- grep("MUT2", objetos, value=TRUE)
+samples_list=c(samples_WT,samples_MUT1,samples_MUT2)
 
 WT <- grep("WT", samples, value=FALSE)
-EH13 <- grep("EH13", samples, value=FALSE)
-EH10 <- grep("EH10", samples, value=FALSE)
+MUT1 <- grep("MUT1", samples, value=FALSE)
+MUT2 <- grep("MUT2", samples, value=FALSE)
 
 
 #GENERAR DATA.FRAME CON RESULTADOS
@@ -100,29 +100,29 @@ contra_area_ <- contra_area / rep(mean(contra_area[WT]), length(contra_area))
 contradom_ <- contradom / rep(mean(contradom[WT]), length(contradom))
 
 
-results$genotype <- reorder(results$genotype, new.order=c("WT","EH13", "EH10"))
+results$genotype <- reorder(results$genotype, new.order=c("WT","MUT1", "MUT2"))
 results <- results[order(results$genotype), ]
 
-overlap.table <- data.frame(name=c("WT","EH13","EH10"), 
-                            value=c(mean(overlap_[WT]), mean(overlap_[EH13]), mean(overlap_[EH10])), 
-                            sem=c(se(overlap_[WT]), se(overlap_[EH13]), se(overlap_[EH10])))
+overlap.table <- data.frame(name=c("WT","MUT1","MUT2"), 
+                            value=c(mean(overlap_[WT]), mean(overlap_[MUT1]), mean(overlap_[MUT2])), 
+                            sem=c(se(overlap_[WT]), se(overlap_[MUT1]), se(overlap_[MUT2])))
 
-ipsidom.table <- data.frame(name=c("WT","EH13","EH10"), 
-                            value=c(mean(ipsidom_[WT]), mean(ipsidom_[EH13]), mean(ipsidom_[EH10])), 
-                            sem=c(se(ipsidom_[WT]), se(ipsidom_[EH13]), se(ipsidom_[EH10])))
+ipsidom.table <- data.frame(name=c("WT","MUT1","MUT2"), 
+                            value=c(mean(ipsidom_[WT]), mean(ipsidom_[MUT1]), mean(ipsidom_[MUT2])), 
+                            sem=c(se(ipsidom_[WT]), se(ipsidom_[MUT1]), se(ipsidom_[MUT2])))
 
 
 ######HISTOGRAM
 
 #Histogram: Average group
 WT.list <- grep("WT", samples_list)
-EH13.list <- grep("EH13", samples_list)
-EH10.list <- grep("EH10", samples_list)
+MUT1.list <- grep("MUT1", samples_list)
+MUT2.list <- grep("MUT2", samples_list)
 breaks <- seq(from=-2.5, to=2.5, by=0.005)
 hist.list <- lapply(samples_list, function(x) hist(get(x), breaks = breaks))
 
-list.index <- list(WT.list, EH13.list, EH10.list)
-output <- c("WT.mean", "EH13.mean", "EH10.mean")
+list.index <- list(WT.list, MUT1.list, MUT2.list)
+output <- c("WT.mean", "MUT1.mean", "MUT2.mean")
 for(j in 1:length(list.index)){
   sublist <- list.index[[j]]
   total <- 0
@@ -134,11 +134,11 @@ for(j in 1:length(list.index)){
 
 mean.counts <- mean(sapply(hist.list, function(x) sum(x$counts)))
 WT.counts <- (WT.mean * mean.counts) / 100
-EH13.counts <- (EH13.mean * mean.counts) / 100
-EH10.counts <- (EH10.mean * mean.counts) / 100
+MUT1.counts <- (MUT1.mean * mean.counts) / 100
+MUT2.counts <- (MUT2.mean * mean.counts) / 100
 
-lines <- list(WT.counts, EH13.counts, EH10.counts)
-line_names <- c("WT.group", "EH13.group", "EH10.group")
+lines <- list(WT.counts, MUT1.counts, MUT2.counts)
+line_names <- c("WT.group", "MUT1.group", "MUT2.group")
 for (j in 1:(length(lines))){
   total <- NULL
   for (i in 1:(length(breaks)-1)){
@@ -149,15 +149,16 @@ for (j in 1:(length(lines))){
 }
 
 plot(density(WT.group, bw=0.25))
-lines(density(EH13.group, bw=0.25), col="red")
-lines(density(EH10.group, bw=0.25), col="blue")
+lines(density(MUT1.group, bw=0.25), col="red")
+lines(density(MUT2.group, bw=0.25), col="blue")
 
 plot(NULL, xlim=c(-3,3), ylim=c(0,1.2), ylab="%", xlab="distance(px)", main="Cummulative distribution", type="l")
 plot(WT)
 
 
-
-############  FUNCTIONS
+##############
+# FUNCTIONS
+#############
 
 Rdistribution <- function(X) {   
   data <- list()
