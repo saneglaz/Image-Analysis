@@ -1,5 +1,6 @@
 This set of scripts allow to automatically calculate Ripley's function in a set of binary masks.
 Multiple sections will be aggregated by sample. 
+
 The process consists of 2 steps:
 
 1- RUN "1_binary_mask_ipsi.ijm" macro in Fiji (ImageJ) on each sample folder to obtain a binary mask of the ipsilateral channel
