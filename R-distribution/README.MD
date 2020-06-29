@@ -9,7 +9,6 @@ RUN "R_distribution.ijm" macro on Fiji (ImageJ) for each sample folder
 	- textimg: Preprocess each channel and obtain an intensity matrix for each channel
 	- LUT: Generates a pseudocolor image for the R distribution in JPEG format. It should be used after generate the R-distribution files with the below R-script.
 
-
 USE "R_distribution.R" script in R to calculate the R distribution and analyze the data:
 
 - The loop will navigate through the folder tree processing all samples
@@ -26,7 +25,8 @@ USE "R_distribution.R" script in R to calculate the R distribution and analyze t
 	- R_distribution: open the "filename_contra.txt" & "filename_ipsi.txt" and compute the R distribution
 		* The intensity threshold was set at 5. Lower intensities were considered as "empty".
 		* "Empty" pixels in both channels were discarded
-		* R=log10(Fi/Fc); Fi is the fluorescence intensity in the ipsilateral channel and Fc is the fluorescence intensity in the contralateral channelç
+		* R=log10(Fi/Fc); Fi is the fluorescence intensity in the ipsilateral channel and Fc is the fluorescence intensity in the contralateral channelÃ§
 		* To allow the calculation of the logarithm, the remaining zero-value pixels were replaced by 0.01
 	- se: calculate the standard error of the mean
+
 
