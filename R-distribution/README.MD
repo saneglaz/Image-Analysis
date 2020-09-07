@@ -29,4 +29,4 @@ USE "R_distribution.R" script in R to calculate the R distribution and analyze t
 		- To allow the calculation of the logarithm, the remaining zero-value pixels were replaced by 0.01
 	- se: calculate the standard error of the mean
 
-
+![image](https://github.com/saneglaz/Image-Analysis/blob/master/R-distribution/4.4.png)
