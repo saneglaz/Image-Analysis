@@ -15,3 +15,5 @@ The process consists of 4 steps:
    - Statistic analyses include:
       * Cummulative distribution for each group. The envelope of each function represents the SEM (standar error of the mean).
       * Violin plot
+
+![image](https://github.com/saneglaz/Image-Analysis/blob/master/Distance_points_to_a_surface/Cummulative_function_of_distances.jpg)
