@@ -11,7 +11,7 @@ The process consists of 2 steps:
 
 scheme showing how distances are measured for each point; Ripley's formula
     
-![image](https://github.com/saneglaz/Image-Analysis/blob/master/Quantify_dispersion_using_Ripley's_function/explanation.jpg)
+![image](https://github.com/saneglaz/Image-Analysis/blob/master/Quantify_dispersion_using_Ripley's_function/explanation.png)
 
 Explain how to interpret the results
 
