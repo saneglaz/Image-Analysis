@@ -25,3 +25,4 @@ The process consists of 2 steps:
 
 ![image](https://github.com/saneglaz/Image-Analysis/blob/master/Density_map/Density_map.jpg)
 
+![image](https://github.com/saneglaz/Image-Analysis/blob/master/Density_map/Ratio%20Cross_No-cross.jpg)
