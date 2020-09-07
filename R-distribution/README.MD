@@ -23,10 +23,10 @@ USE "R_distribution.R" script in R to calculate the R distribution and analyze t
 
 -FUNCTIONS:
 	- R_distribution: open the "filename_contra.txt" & "filename_ipsi.txt" and compute the R distribution
-		* The intensity threshold was set at 5. Lower intensities were considered as "empty".
-		* "Empty" pixels in both channels were discarded
-		* R=log10(Fi/Fc); Fi is the fluorescence intensity in the ipsilateral channel and Fc is the fluorescence intensity in the contralateral channelç
-		* To allow the calculation of the logarithm, the remaining zero-value pixels were replaced by 0.01
+		- The intensity threshold was set at 5. Lower intensities were considered as "empty".
+		- "Empty" pixels in both channels were discarded
+		- R=log10(Fi/Fc); Fi is the fluorescence intensity in the ipsilateral channel and Fc is the fluorescence intensity in the contralateral channelç
+		- To allow the calculation of the logarithm, the remaining zero-value pixels were replaced by 0.01
 	- se: calculate the standard error of the mean
 
 
